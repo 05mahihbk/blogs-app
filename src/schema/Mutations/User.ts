@@ -15,6 +15,13 @@ import { UserType, AuthType } from "../TypeDefs/User";
 import { CreateUserType } from "../TypeDefs/Message";
 
 
+/**
+* For Login user
+*
+* param email, password
+* 
+* return authToken
+*/
 export const LOGIN_API = {
   type: AuthType,
   args: {
@@ -49,7 +56,13 @@ export const LOGIN_API = {
   },
 };
 
-
+/**
+* For Create User
+*
+* param first_name,last_name,email,password
+* 
+* return create user
+*/
 export const CREATE_USER = {
   type: CreateUserType,
   args: {
@@ -81,6 +94,13 @@ export const CREATE_USER = {
   },
 };
 
+/**
+* For Delete User
+*
+* param id
+* 
+* return boolean
+*/
 export const DELETE_USER = {
   type: GraphQLBoolean,
   args: {
@@ -93,6 +113,14 @@ export const DELETE_USER = {
   },
 };
 
+
+/**
+* For Update User
+*
+* param id, input(first_name, last_name, email, password, old_password, new_password, status)
+* 
+* return update user data.
+*/
 export const UPDATE_USER = {
   type: CreateUserType,
   args: {

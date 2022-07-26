@@ -11,6 +11,13 @@ import {
   import { Blogs } from "../../Entities/Blogs";
   import { CreateBlogType } from "../TypeDefs/Message";
   
+  /**
+	* For Create Blog
+	*
+	* param title,description,author,user_id
+	* 
+	* return created blog
+	*/
   export const CREATE_BLOG= {
     type: CreateBlogType,
     args: {
@@ -40,6 +47,14 @@ import {
     },
   };
   
+
+  /**
+	* For Delete Blog
+	*
+	* param id
+	* 
+	* return boolean value
+	*/
   export const DELETE_BLOG = {
     type: GraphQLBoolean,
     args: {
@@ -52,6 +67,14 @@ import {
     },
   };
   
+
+  /**
+	* For Update Blog
+	*
+	* param id, input Object (title,description,author,user_id,status)
+	* 
+	* return update data
+	*/
   export const UPDATE_BLOG = {
     type: CreateBlogType,
     args: {

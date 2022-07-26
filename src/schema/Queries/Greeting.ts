@@ -1,5 +1,12 @@
 import { GraphQLNonNull, GraphQLString } from "graphql";
 
+/**
+	* For Get Greeting message
+	*
+	* param name
+	* 
+	* return message
+	*/
 export const GREETING = {
   type: GraphQLString,
   args: {

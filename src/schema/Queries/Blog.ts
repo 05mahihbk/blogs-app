@@ -9,6 +9,13 @@ import {
   import { Blogs } from "../../Entities/Blogs";
   import { BlogType } from "../TypeDefs/Blog";
   
+  /**
+	* For Get All the blogs
+	*
+	* param null
+	* 
+	* return blogs data.
+	*/
   export const GET_ALL_BLOGS = {
     type: new GraphQLList(BlogType),
     resolve() {
@@ -16,6 +23,13 @@ import {
     },
   };
   
+  /**
+	* For Get Single Blog By Id
+	*
+	* param id
+	* 
+	* return Single blogs data.
+	*/
   export const GET_BLOG = {
     type: BlogType,
     args: {

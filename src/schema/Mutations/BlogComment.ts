@@ -11,6 +11,13 @@ import {
   import { BlogComments } from "../../Entities/BlogComments";
   import { CreateBlogCommentType } from "../TypeDefs/Message";
   
+  /**
+  * For Create Blog Comment
+  *
+  * param comment,blog_id,user_id,name,email,phone
+  * 
+  * return created blog comment.
+  */
   export const CREATE_BLOG_COMMENT= {
     type: CreateBlogCommentType,
     args: {
@@ -44,6 +51,14 @@ import {
     },
   };
   
+
+  /**
+  * For delete Blog Comment
+  *
+  * param id
+  * 
+  * return boolean.
+  */
   export const DELETE_BLOG_COMMENT = {
     type: GraphQLBoolean,
     args: {
@@ -56,6 +71,14 @@ import {
     },
   };
   
+
+  /**
+  * For update Blog Comment
+  *
+  * param id, input (comment, blog_id, user_id, name, email, phone, status)
+  * 
+  * return boolean.
+  */
   export const UPDATE_BLOG_COMMENT = {
     type: CreateBlogCommentType,
     args: {
