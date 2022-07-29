@@ -8,11 +8,11 @@ import {
 } from "graphql";
 import { Users } from "../../Entities/Users";
 import { UserType } from "../TypeDefs/User";
-import { verifyJsonToken, getToken } from "../../libs/helper";
 
 export const GET_ALL_USERS = {
   type: new GraphQLList(UserType),
-  resolve() {
+  resolve(parent:any, args, context) {
+    if(!context.user) throw new Error("Authentication failed");
     return Users.find();
   },
 };
@@ -31,10 +31,9 @@ export const GET_USER = {
 
 export const GET_AUTH_USER = {
   type: UserType,
-  async resolve(_: any, args: any, context) {
-    const token   = await getToken(context.headers.authorization);
-    const user    = await verifyJsonToken(token);
-    const result  = await Users.findOneBy({ id:user['id'] });
-    return result;
+  async resolve(parent: any, args: any, context:any) {
+    if(!context.user) throw new Error("Authentication failed");
+    
+    return context.user;
   },
 };

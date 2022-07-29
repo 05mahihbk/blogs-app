@@ -10,9 +10,9 @@ import {
 } from "graphql";
 import { Users } from "../../Entities/Users";
 import { hashPassword, comparePassword } from "../../libs/bcrypt";
-import { createJsonToken, verifyJsonToken } from "../../libs/helper";
 import { UserType, AuthType } from "../TypeDefs/User";
 import { CreateUserType } from "../TypeDefs/Message";
+import { AuthService } from "../../Services/AuthService";
 
 
 /**
@@ -41,7 +41,7 @@ export const LOGIN_API = {
       password
     );
 
-    const token   = await createJsonToken(userFound);
+    const token   = await AuthService.createJsonToken(userFound);
 
     let apiResponse;
     if(isMatch){

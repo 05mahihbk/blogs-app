@@ -4,6 +4,7 @@ import { graphqlHTTP} from "express-graphql";
 import cors from "cors";
 import { schema } from "./schema";
 import { APP_KEY } from "./config";
+import {AuthService} from './Services/AuthService';
 
 const app = express();
 
@@ -29,12 +30,18 @@ var root = {
 app.use(loggingMiddleware);
 
 app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    rootValue: root,
-    graphiql: { headerEditorEnabled : true},
+  '/graphql',
+  graphqlHTTP(async (req, res, graphQLParams) => {
+    return {
+      schema,
+      rootValue: root,
+      graphiql: { headerEditorEnabled : true},
+      context: {
+        user: await AuthService.checkAuthorization(req.headers),
+        req: req,
+      }
+    }
   })
-);
+)
 
 export default app;
