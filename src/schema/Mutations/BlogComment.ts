@@ -28,7 +28,9 @@ import {
       email: { type: GraphQLString },
       phone: { type: GraphQLString },
     },
-    async resolve(parent: any, args: any) {
+    async resolve(parent: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+      
       const { comment, blog_id, user_id, name, email, phone } = args;
 
       const result = await BlogComments.insert({
@@ -64,7 +66,9 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, { id }: any) {
+    async resolve(_: any, { id }: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+
       const result = await BlogComments.delete({ id });
       if (result.affected! > 0) return true;
       return false;
@@ -98,7 +102,9 @@ import {
         }),
       },
     },
-    async resolve(_: any, { id, input }: any) {
+    async resolve(_: any, { id, input }: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+
       const blogCommentFound = await BlogComments.findOneBy({ id });
       if (!blogCommentFound) throw new Error("Blog comment not found");
 

@@ -18,7 +18,9 @@ import {
 	*/
   export const GET_ALL_BLOG_COMMENTS = {
     type: new GraphQLList(BlogCommentType),
-    resolve() {
+    async resolve(_: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+
       return BlogComments.find();
     },
   };
@@ -35,7 +37,9 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, args: any) {
+    async resolve(_: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access"); 
+      
       const result = await BlogComments.findOneBy({ id: args.id });
       return result;
     },

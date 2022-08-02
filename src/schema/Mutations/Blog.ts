@@ -26,7 +26,9 @@ import {
       author: { type: GraphQLString },
       user_id: { type: GraphQLID },
     },
-    async resolve(parent: any, args: any) {
+    async resolve(parent: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+      
       const { title, description, author, user_id } = args;
 
       const result = await Blogs.insert({
@@ -60,7 +62,9 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, { id }: any) {
+    async resolve(_: any, { id }: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+
       const result = await Blogs.delete({ id });
       if (result.affected! > 0) return true;
       return false;
@@ -92,7 +96,9 @@ import {
         }),
       },
     },
-    async resolve(_: any, { id, input }: any) {
+    async resolve(_: any, { id, input }: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+
       const blogFound = await Blogs.findOneBy({ id });
       if (!blogFound) throw new Error("Blog not found");
 

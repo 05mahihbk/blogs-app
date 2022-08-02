@@ -28,7 +28,9 @@ export const LOGIN_API = {
     email: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  async resolve(parent: any, args: any, req:any) {
+  async resolve(parent: any, args: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+
     const { email, password } = args;
 
     const userFound = await Users.findOneBy({ 'email':email });
@@ -66,12 +68,15 @@ export const LOGIN_API = {
 export const CREATE_USER = {
   type: CreateUserType,
   args: {
-    first_name: { type: new GraphQLNonNull(GraphQLString) },
-    last_name: { type: new GraphQLNonNull(GraphQLString) },
+    first_name: { type: GraphQLString },
+    last_name: { type: GraphQLString },
     email: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  async resolve(parent: any, args: any, req:any) {
+  async resolve(parent: any, args: any, context:any) {
+  
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+
     const { first_name, last_name, email, password } = args;
 
     const encryptPassword = await hashPassword(password);
@@ -106,7 +111,9 @@ export const DELETE_USER = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  async resolve(_: any, { id }: any) {
+  async resolve(_: any, { id }: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+
     const result = await Users.delete({ id });
     if (result.affected! > 0) return true;
     return false;
@@ -139,7 +146,9 @@ export const UPDATE_USER = {
       }),
     },
   },
-  async resolve(_: any, args: any) {
+  async resolve(_: any, args: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+
     const { id, input } = args;
     const userFound = await Users.findOneBy({ id });
     if (!userFound) throw new Error("User not found");

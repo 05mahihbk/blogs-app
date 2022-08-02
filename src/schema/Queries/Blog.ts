@@ -18,7 +18,9 @@ import {
 	*/
   export const GET_ALL_BLOGS = {
     type: new GraphQLList(BlogType),
-    resolve() {
+    async resolve(_: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+      
       return Blogs.find();
     },
   };
@@ -35,7 +37,11 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, args: any) {
+    async resolve(_: any, args: any, context:any) {
+      if(!context.isValidRequest) throw new Error("Invalid Access");
+      
+      if(!context.user) throw new Error("Authentication failed");
+
       const result = await Blogs.findOneBy({ id: args.id });
       return result;
     },

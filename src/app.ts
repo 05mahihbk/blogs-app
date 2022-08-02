@@ -5,29 +5,18 @@ import cors from "cors";
 import { schema } from "./schema";
 import { APP_KEY } from "./config";
 import {AuthService} from './Services/AuthService';
+import {AppService} from './Services/AppService';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const loggingMiddleware = (req, res, next) => {
-  if(req.method == 'POST'){
-    if(req.headers['app-key'] != APP_KEY){
-      res.json({'success':false,'message':'Invalid Access'});
-      return;
-    }
-  }
-  next();
-}
-
 var root = {
   ip: function (args, request) {
     return request.ip;
   }
 };
-
-app.use(loggingMiddleware);
 
 app.use(
   '/graphql',
@@ -38,6 +27,7 @@ app.use(
       graphiql: { headerEditorEnabled : true},
       context: {
         user: await AuthService.checkAuthorization(req.headers),
+        isValidRequest: await AppService.checkValidRequest(req.headers),
         req: req,
       }
     }

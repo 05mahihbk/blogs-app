@@ -12,7 +12,9 @@ export const GREETING = {
   args: {
     name: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve(_: any, args: any) {
+  async resolve(_: any, args: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+    
     return `Hello ${args.name}`;
   },
 };

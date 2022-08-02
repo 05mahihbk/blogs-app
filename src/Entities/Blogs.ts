@@ -11,13 +11,13 @@ export class Blogs extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({nullable:true})
   author: string;
 
-  @Column()
+  @Column({default:0})
   user_id: number;
 
-  @Column({ type: "tinyint", width: 4 })
+  @Column({ type: 'boolean', width: 1, default : false})
   status: boolean;
 
   @CreateDateColumn()

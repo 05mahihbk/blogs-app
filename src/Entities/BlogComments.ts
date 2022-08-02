@@ -11,19 +11,19 @@ export class BlogComments extends BaseEntity {
   @Column()
   blog_id: number;
 
-  @Column()
+  @Column({default:0})
   user_id: number;
 
-  @Column()
+  @Column({nullable:true})
   email: string;
 
-  @Column()
+  @Column({nullable:true})
   name: string;
 
-  @Column()
+  @Column({nullable:true})
   phone: string;
 
-  @Column({ type: "tinyint", width: 4 })
+  @Column({ type: 'boolean', width: 1, default : false})
   status: boolean;
 
   @CreateDateColumn()

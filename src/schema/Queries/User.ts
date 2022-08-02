@@ -11,7 +11,9 @@ import { UserType } from "../TypeDefs/User";
 
 export const GET_ALL_USERS = {
   type: new GraphQLList(UserType),
-  resolve(parent:any, args, context) {
+  resolve(parent:any, args:any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
+
     if(!context.user) throw new Error("Authentication failed");
     return Users.find();
   },
@@ -22,7 +24,9 @@ export const GET_USER = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  async resolve(_: any, args: any) {
+  async resolve(_: any, args: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access"); 
+
     const result = await Users.findOneBy({ id: args.id });
     return result;
   },
@@ -32,6 +36,7 @@ export const GET_USER = {
 export const GET_AUTH_USER = {
   type: UserType,
   async resolve(parent: any, args: any, context:any) {
+    if(!context.isValidRequest) throw new Error("Invalid Access");
     if(!context.user) throw new Error("Authentication failed");
     
     return context.user;

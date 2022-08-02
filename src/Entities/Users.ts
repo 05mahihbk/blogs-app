@@ -5,10 +5,10 @@ export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({nullable:true})
   first_name: string;
 
-  @Column()
+  @Column({nullable:true})
   last_name: string;
 
   @Column({unique: true})
@@ -17,7 +17,7 @@ export class Users extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ type: "tinyint", width: 4 })
+  @Column({ type: 'boolean', width: 1, default : false})
   status: boolean;
 
   @CreateDateColumn()
