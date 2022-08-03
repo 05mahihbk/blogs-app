@@ -10,6 +10,7 @@ import {
   } from "graphql";
   import { Blogs } from "../../Entities/Blogs";
   import { CreateBlogType } from "../TypeDefs/Message";
+  import { BlogFields } from "../TypeDefs/Blog";
   
   /**
 	* For Create Blog
@@ -26,7 +27,7 @@ import {
       author: { type: GraphQLString },
       user_id: { type: GraphQLID },
     },
-    async resolve(parent: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
       
       const { title, description, author, user_id } = args;
@@ -62,7 +63,7 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, { id }: any, context:any) {
+    async resolve(parent: any, { id }: BlogFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
 
       const result = await Blogs.delete({ id });
@@ -96,7 +97,7 @@ import {
         }),
       },
     },
-    async resolve(_: any, { id, input }: any, context:any) {
+    async resolve(parent: any, { id, input }: any, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
 
       const blogFound = await Blogs.findOneBy({ id });

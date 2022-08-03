@@ -10,7 +10,7 @@ import {
 } from "graphql";
 import { Users } from "../../Entities/Users";
 import { hashPassword, comparePassword } from "../../libs/bcrypt";
-import { UserType, AuthType } from "../TypeDefs/User";
+import { UserType, AuthType, UserFields } from "../TypeDefs/User";
 import { CreateUserType } from "../TypeDefs/Message";
 import { AuthService } from "../../Services/AuthService";
 
@@ -28,7 +28,7 @@ export const LOGIN_API = {
     email: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  async resolve(parent: any, args: any, context:any) {
+  async resolve(parent: any, args: UserFields, context:any) {
     if(!context.isValidRequest) throw new Error("Invalid Access");
 
     const { email, password } = args;
@@ -73,7 +73,7 @@ export const CREATE_USER = {
     email: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  async resolve(parent: any, args: any, context:any) {
+  async resolve(parent: any, args: UserFields, context:any) {
   
     if(!context.isValidRequest) throw new Error("Invalid Access");
 
@@ -111,7 +111,7 @@ export const DELETE_USER = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
   },
-  async resolve(_: any, { id }: any, context:any) {
+  async resolve(parent: any, { id }: UserFields, context:any) {
     if(!context.isValidRequest) throw new Error("Invalid Access");
 
     const result = await Users.delete({ id });
@@ -146,7 +146,7 @@ export const UPDATE_USER = {
       }),
     },
   },
-  async resolve(_: any, args: any, context:any) {
+  async resolve(parent: any, args: any, context:any) {
     if(!context.isValidRequest) throw new Error("Invalid Access");
 
     const { id, input } = args;

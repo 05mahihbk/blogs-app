@@ -1,5 +1,15 @@
 import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } from "graphql";
 
+
+export type UserFields = {
+  id: number;
+  first_name: string;
+  last_name: string;  
+  email: string;  
+  password: string;  
+  status: number;  
+};
+
 export const UserType = new GraphQLObjectType({
   name: "User",
   description: "User Type Definition",

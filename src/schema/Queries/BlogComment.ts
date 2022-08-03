@@ -7,7 +7,7 @@ import {
     GraphQLString,
   } from "graphql";
   import { BlogComments } from "../../Entities/BlogComments";
-  import { BlogCommentType } from "../TypeDefs/BlogComment";
+  import { BlogCommentType, BlogCommentFields } from "../TypeDefs/BlogComment";
   
   /**
 	* For Get all blog comments
@@ -18,7 +18,7 @@ import {
 	*/
   export const GET_ALL_BLOG_COMMENTS = {
     type: new GraphQLList(BlogCommentType),
-    async resolve(_: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogCommentFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
 
       return BlogComments.find();
@@ -37,7 +37,7 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogCommentFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access"); 
       
       const result = await BlogComments.findOneBy({ id: args.id });

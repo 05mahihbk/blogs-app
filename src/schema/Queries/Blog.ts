@@ -7,7 +7,7 @@ import {
     GraphQLString,
   } from "graphql";
   import { Blogs } from "../../Entities/Blogs";
-  import { BlogType } from "../TypeDefs/Blog";
+  import { BlogType,BlogFields } from "../TypeDefs/Blog";
   
   /**
 	* For Get All the blogs
@@ -18,7 +18,7 @@ import {
 	*/
   export const GET_ALL_BLOGS = {
     type: new GraphQLList(BlogType),
-    async resolve(_: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
       
       return Blogs.find();
@@ -37,7 +37,7 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
       
       if(!context.user) throw new Error("Authentication failed");

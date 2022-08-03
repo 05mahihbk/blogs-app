@@ -1,5 +1,14 @@
 import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } from "graphql";
 
+export type BlogFields = {
+  id: number;
+  title: string;
+  description: string;  
+  user_id: number;  
+  author: string;  
+  status: number;  
+};
+
 export const BlogType = new GraphQLObjectType({
   name: "Blog",
   description: "Blog Type Definition",

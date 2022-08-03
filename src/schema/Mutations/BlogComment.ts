@@ -10,6 +10,7 @@ import {
   } from "graphql";
   import { BlogComments } from "../../Entities/BlogComments";
   import { CreateBlogCommentType } from "../TypeDefs/Message";
+  import { BlogCommentFields } from "../TypeDefs/BlogComment";
   
   /**
   * For Create Blog Comment
@@ -28,7 +29,7 @@ import {
       email: { type: GraphQLString },
       phone: { type: GraphQLString },
     },
-    async resolve(parent: any, args: any, context:any) {
+    async resolve(parent: any, args: BlogCommentFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
       
       const { comment, blog_id, user_id, name, email, phone } = args;
@@ -66,7 +67,7 @@ import {
     args: {
       id: { type: new GraphQLNonNull(GraphQLID) },
     },
-    async resolve(_: any, { id }: any, context:any) {
+    async resolve(_: any, { id }: BlogCommentFields, context:any) {
       if(!context.isValidRequest) throw new Error("Invalid Access");
 
       const result = await BlogComments.delete({ id });
